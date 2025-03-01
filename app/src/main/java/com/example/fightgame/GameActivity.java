@@ -1,6 +1,7 @@
 package com.example.fightgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ public class GameActivity extends AppCompatActivity {
     private int position1 = 0;
     private int position2 = 4;
     private Handler manaHandler = new Handler(Looper.getMainLooper());
+    private MediaPlayer attackSound, moveSound, damageSound, backgroundMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,15 @@ public class GameActivity extends AppCompatActivity {
         progressHP2 = findViewById(R.id.progressHP2);
         progressMP2 = findViewById(R.id.progressMP2);
 
+        attackSound = MediaPlayer.create(this, R.raw.attack_sound);
+        moveSound = MediaPlayer.create(this, R.raw.move_sound);
+        damageSound = MediaPlayer.create(this, R.raw.damage_sound);
+        backgroundMusic = MediaPlayer.create(this, R.raw.background_music);
+        if (backgroundMusic != null) {
+            backgroundMusic.setLooping(true);
+            backgroundMusic.start();
+        }
+
         Button btnLeft = findViewById(R.id.btnLeft);
         Button btnRight = findViewById(R.id.btnRight);
         Button btnAttack = findViewById(R.id.btnAttack);
@@ -51,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
             if (position1 > 0 && position1 - 1 != position2) {
                 position1--;
                 updateWizardPositions();
+                playMoveSound();
             }
         });
 
@@ -59,6 +71,7 @@ public class GameActivity extends AppCompatActivity {
             if (position1 < 4 && position1 + 1 != position2) {
                 position1++;
                 updateWizardPositions();
+                playMoveSound();
             }
         });
 
@@ -67,6 +80,7 @@ public class GameActivity extends AppCompatActivity {
             if (player1.getCurrentMP() >= 10) {
                 player1.useMana(10);
                 launchProjectile(player1, position1, position2, wizard1, wizard2);
+                playAttackSound();
                 updateUI();
             }
         });
@@ -76,6 +90,7 @@ public class GameActivity extends AppCompatActivity {
             if (position2 > 0 && position2 - 1 != position1) {
                 position2--;
                 updateWizardPositions();
+                playMoveSound();
             }
         });
 
@@ -84,6 +99,7 @@ public class GameActivity extends AppCompatActivity {
             if (position2 < 4 && position2 + 1 != position1) {
                 position2++;
                 updateWizardPositions();
+                playMoveSound();
             }
         });
 
@@ -92,6 +108,7 @@ public class GameActivity extends AppCompatActivity {
             if (player2.getCurrentMP() >= 10) {
                 player2.useMana(10);
                 launchProjectile(player2, position2, position1, wizard2, wizard1);
+                playAttackSound();
                 updateUI();
             }
         });
@@ -122,7 +139,8 @@ public class GameActivity extends AppCompatActivity {
                     if (toPos == (attacker == player1 ? position2 : position1)) {
                         Player target = (attacker == player1 ? player2 : player1);
                         target.takeDamage(20);
-                        flashWizard(toWizard); // Animation of taking damage
+                        flashWizard(toWizard);
+                        playDamageSound();
                     }
                     projectile.setVisibility(ImageView.INVISIBLE);
                     updateUI();
@@ -158,9 +176,28 @@ public class GameActivity extends AppCompatActivity {
         manaHandler.postDelayed(manaRunnable, 5000);
     }
 
+    private void playAttackSound() {
+        if (attackSound != null) attackSound.start();
+    }
+
+    private void playMoveSound() {
+        if (moveSound != null) moveSound.start();
+    }
+
+    private void playDamageSound() {
+        if (damageSound != null) damageSound.start();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         manaHandler.removeCallbacksAndMessages(null);
+        if (attackSound != null) attackSound.release();
+        if (moveSound != null) moveSound.release();
+        if (damageSound != null) damageSound.release();
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.release();
+        }
     }
 }
