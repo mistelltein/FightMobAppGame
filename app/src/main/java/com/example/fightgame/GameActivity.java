@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -46,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
         updateUI();
 
         btnLeft.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (position1 > 0 && position1 - 1 != position2) {
                 position1--;
                 updateWizardPositions();
@@ -53,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         btnRight.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (position1 < 4 && position1 + 1 != position2) {
                 position1++;
                 updateWizardPositions();
@@ -60,6 +63,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         btnAttack.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (player1.getCurrentMP() >= 10) {
                 player1.useMana(10);
                 launchProjectile(player1, position1, position2, wizard1, wizard2);
@@ -68,6 +72,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         btnLeft2.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (position2 > 0 && position2 - 1 != position1) {
                 position2--;
                 updateWizardPositions();
@@ -75,6 +80,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         btnRight2.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (position2 < 4 && position2 + 1 != position1) {
                 position2++;
                 updateWizardPositions();
@@ -82,6 +88,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         btnAttack2.setOnClickListener(v -> {
+            v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
             if (player2.getCurrentMP() >= 10) {
                 player2.useMana(10);
                 launchProjectile(player2, position2, position1, wizard2, wizard1);
