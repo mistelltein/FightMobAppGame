@@ -69,6 +69,15 @@
         app:layout_constraintBottom_toBottomOf="@id/position4"
         app:layout_constraintStart_toStartOf="@id/position4" />
 
+    <ImageView
+        android:id="@+id/projectile"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_projectile"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/wizard1" />
+
     <!-- HP and MP stripes for the first character -->
     <ProgressBar
         android:id="@+id/progressHP1"
