@@ -144,19 +144,19 @@
                 android:id="@+id/btnUp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="↑"
+                android:text="@string/button_up"
                 android:background="@drawable/button_background" />
             <Button
                 android:id="@+id/btnDown"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="↓"
+                android:text="@string/button_down"
                 android:background="@drawable/button_background" />
             <Button
                 android:id="@+id/btnAttack"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
-                android:text="Atk"
+                android:text="@string/button_attack"
                 android:background="@drawable/button_background" />
         </LinearLayout>
 
@@ -171,19 +171,19 @@
                 android:id="@+id/btnUp2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="↑"
+                android:text="@string/button_up"
                 android:background="@drawable/button_background" />
             <Button
                 android:id="@+id/btnDown2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="↓"
+                android:text="@string/button_down"
                 android:background="@drawable/button_background" />
             <Button
                 android:id="@+id/btnAttack2"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
-                android:text="Atk"
+                android:text="@string/button_attack"
                 android:background="@drawable/button_background" />
         </LinearLayout>
     </LinearLayout>

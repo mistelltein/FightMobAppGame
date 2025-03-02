@@ -9,4 +9,8 @@
     <string name="back_button">Back</string>
 
     <string name="game_started">Game Started!</string>
+
+    <string name="button_attack">Atk</string>
+    <string name="button_up">↑</string>
+    <string name="button_down">↓</string>
 </resources>

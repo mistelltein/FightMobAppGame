@@ -1,7 +1,7 @@
 package com.example.fightgame;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.example.fightgame.models.Player;
 
 public class GameActivity extends AppCompatActivity {
@@ -20,7 +21,9 @@ public class GameActivity extends AppCompatActivity {
     private int position1 = 1;
     private int position2 = 1;
     private Handler manaHandler = new Handler(Looper.getMainLooper());
-    private MediaPlayer attackSound, moveSound, damageSound, backgroundMusic;
+    private SoundPool soundPool;
+    private int soundAttack, soundMove, soundDamage;
+    private android.media.MediaPlayer backgroundMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +41,12 @@ public class GameActivity extends AppCompatActivity {
         progressHP2 = findViewById(R.id.progressHP2);
         progressMP2 = findViewById(R.id.progressMP2);
 
-        attackSound = MediaPlayer.create(this, R.raw.attack_sound);
-        moveSound = MediaPlayer.create(this, R.raw.move_sound);
-        damageSound = MediaPlayer.create(this, R.raw.damage_sound);
-        backgroundMusic = MediaPlayer.create(this, R.raw.background_music);
+        soundPool = new SoundPool.Builder().setMaxStreams(3).build();
+        soundAttack = soundPool.load(this, R.raw.attack_sound, 1);
+        soundMove = soundPool.load(this, R.raw.move_sound, 1);
+        soundDamage = soundPool.load(this, R.raw.damage_sound, 1);
+
+        backgroundMusic = android.media.MediaPlayer.create(this, R.raw.background_music);
         if (backgroundMusic != null) {
             backgroundMusic.setLooping(true);
             backgroundMusic.start();
@@ -56,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.backButton);
 
         updateUI();
-        updateWizardPositions(); // Установить начальные позиции
+        updateWizardPositions();
 
         btnUp.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
@@ -155,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     projectile.setVisibility(ImageView.INVISIBLE);
                     updateUI();
+                    checkForWinner();
                 })
                 .start();
     }
@@ -188,27 +194,69 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playAttackSound() {
-        if (attackSound != null) attackSound.start();
+        soundPool.play(soundAttack, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
     private void playMoveSound() {
-        if (moveSound != null) moveSound.start();
+        soundPool.play(soundMove, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
     private void playDamageSound() {
-        if (damageSound != null) damageSound.start();
+        soundPool.play(soundDamage, 1.0f, 1.0f, 1, 0, 1.0f);
+    }
+
+    private void checkForWinner() {
+        if (player1.getCurrentHP() <= 0 && player2.getCurrentHP() > 0) {
+            announceWinner("Player 2");
+        } else if (player2.getCurrentHP() <= 0 && player1.getCurrentHP() > 0) {
+            announceWinner("Player 1");
+        } else if (player1.getCurrentHP() <= 0 && player2.getCurrentHP() <= 0) {
+            announceWinner("Ничья");
+        }
+    }
+
+    private void announceWinner(String winner) {
+        Toast.makeText(this, winner + " победил!", Toast.LENGTH_LONG).show();
+        disableButtons();
+    }
+
+    private void disableButtons() {
+        findViewById(R.id.btnUp).setEnabled(false);
+        findViewById(R.id.btnDown).setEnabled(false);
+        findViewById(R.id.btnAttack).setEnabled(false);
+        findViewById(R.id.btnUp2).setEnabled(false);
+        findViewById(R.id.btnDown2).setEnabled(false);
+        findViewById(R.id.btnAttack2).setEnabled(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (backgroundMusic != null && backgroundMusic.isPlaying()) {
+            backgroundMusic.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (backgroundMusic != null && !backgroundMusic.isPlaying()) {
+            backgroundMusic.start();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         manaHandler.removeCallbacksAndMessages(null);
-        if (attackSound != null) attackSound.release();
-        if (moveSound != null) moveSound.release();
-        if (damageSound != null) damageSound.release();
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
         if (backgroundMusic != null) {
             backgroundMusic.stop();
             backgroundMusic.release();
+            backgroundMusic = null;
         }
     }
 }
