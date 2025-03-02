@@ -58,6 +58,7 @@
         android:id="@+id/wizard1"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:contentDescription="@string/default_description"
         android:src="@drawable/ic_wizard1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_position1"
@@ -67,6 +68,7 @@
         android:id="@+id/wizard2"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:contentDescription="@string/default_description"
         android:src="@drawable/ic_wizard2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_position1"
@@ -134,6 +136,7 @@
         android:id="@+id/position4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,23 +145,27 @@
         android:padding="16dp">
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="center">
+
             <Button
                 android:id="@+id/btnUp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:text="@string/button_up"
                 android:background="@drawable/button_background" />
+
             <Button
                 android:id="@+id/btnDown"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:text="@string/button_down"
                 android:background="@drawable/button_background" />
+
             <Button
                 android:id="@+id/btnAttack"
                 android:layout_width="80dp"
@@ -168,23 +175,27 @@
         </LinearLayout>
 
         <LinearLayout
+            style="?android:attr/buttonBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="center">
+
             <Button
                 android:id="@+id/btnUp2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:text="@string/button_up"
                 android:background="@drawable/button_background" />
+
             <Button
                 android:id="@+id/btnDown2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:text="@string/button_down"
                 android:background="@drawable/button_background" />
+
             <Button
                 android:id="@+id/btnAttack2"
                 android:layout_width="80dp"

@@ -22,7 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private ImageView wizard1, wizard2;
     private int position1 = 1;
     private int position2 = 1;
-    private Handler manaHandler = new Handler(Looper.getMainLooper());
+    private final Handler manaHandler = new Handler(Looper.getMainLooper());
     private SoundPool soundPool;
     private int soundAttack, soundMove, soundDamage;
     private android.media.MediaPlayer backgroundMusic;
@@ -139,8 +139,8 @@ public class GameActivity extends AppCompatActivity {
                 guidelinePosition3
         };
 
-        float targetY1 = positions[position1 - 1].getY() - wizard1.getHeight() / 2;
-        float targetY2 = positions[position2 - 1].getY() - wizard2.getHeight() / 2;
+        float targetY1 = positions[position1 - 1].getY() - wizard1.getHeight() / 2.0f;
+        float targetY2 = positions[position2 - 1].getY() - wizard2.getHeight() / 2.0f;
 
         wizard1.animate().y(targetY1).setDuration(300).start();
         wizard2.animate().y(targetY2).setDuration(300).start();
@@ -159,7 +159,7 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.guideline_position3)
         };
 
-        float startY = positions[fromPos - 1].getY() - newProjectile.getHeight() / 2;
+        float startY = positions[fromPos - 1].getY() - newProjectile.getHeight() / 2.0f;
         float startX = (attacker == player1) ? fromWizard.getX() + fromWizard.getWidth() : fromWizard.getX();
         float endX = (attacker == player1) ? getResources().getDisplayMetrics().widthPixels : 0;
 
@@ -230,12 +230,12 @@ public class GameActivity extends AppCompatActivity {
         } else if (player2.getCurrentHP() <= 0 && player1.getCurrentHP() > 0) {
             announceWinner("Player 1");
         } else if (player1.getCurrentHP() <= 0 && player2.getCurrentHP() <= 0) {
-            announceWinner("Ничья");
+            announceWinner("Draw");
         }
     }
 
     private void announceWinner(String winner) {
-        Toast.makeText(this, winner + " победил!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, winner + " won!", Toast.LENGTH_LONG).show();
         disableButtons();
     }
 
