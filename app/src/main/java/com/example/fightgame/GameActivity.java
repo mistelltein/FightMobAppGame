@@ -5,11 +5,13 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.fightgame.models.Player;
 
 public class GameActivity extends AppCompatActivity {
@@ -17,13 +19,14 @@ public class GameActivity extends AppCompatActivity {
     private Player player1;
     private Player player2;
     private ProgressBar progressHP1, progressMP1, progressHP2, progressMP2;
-    private ImageView wizard1, wizard2, projectile;
+    private ImageView wizard1, wizard2;
     private int position1 = 1;
     private int position2 = 1;
     private Handler manaHandler = new Handler(Looper.getMainLooper());
     private SoundPool soundPool;
     private int soundAttack, soundMove, soundDamage;
     private android.media.MediaPlayer backgroundMusic;
+    private ConstraintLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,11 @@ public class GameActivity extends AppCompatActivity {
 
         wizard1 = findViewById(R.id.wizard1);
         wizard2 = findViewById(R.id.wizard2);
-        projectile = findViewById(R.id.projectile);
         progressHP1 = findViewById(R.id.progressHP1);
         progressMP1 = findViewById(R.id.progressMP1);
         progressHP2 = findViewById(R.id.progressHP2);
         progressMP2 = findViewById(R.id.progressMP2);
+        rootLayout = findViewById(R.id.rootLayout);
 
         soundPool = new SoundPool.Builder().setMaxStreams(3).build();
         soundAttack = soundPool.load(this, R.raw.attack_sound, 1);
@@ -144,21 +147,27 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void launchProjectile(Player attacker, int fromPos, int toPos, ImageView fromWizard, ImageView toWizard) {
+        ImageView newProjectile = new ImageView(this);
+        newProjectile.setImageResource(R.drawable.ic_projectile);
+        newProjectile.setLayoutParams(new ConstraintLayout.LayoutParams(20, 20));
+
+        rootLayout.addView(newProjectile);
+
         androidx.constraintlayout.widget.Guideline[] positions = {
                 findViewById(R.id.guideline_position1),
                 findViewById(R.id.guideline_position2),
                 findViewById(R.id.guideline_position3)
         };
 
-        float startY = positions[fromPos - 1].getY() - projectile.getHeight() / 2;
+        float startY = positions[fromPos - 1].getY() - newProjectile.getHeight() / 2;
         float startX = (attacker == player1) ? fromWizard.getX() + fromWizard.getWidth() : fromWizard.getX();
         float endX = (attacker == player1) ? getResources().getDisplayMetrics().widthPixels : 0;
 
-        projectile.setY(startY);
-        projectile.setX(startX);
-        projectile.setVisibility(ImageView.VISIBLE);
+        newProjectile.setY(startY);
+        newProjectile.setX(startX);
+        newProjectile.setVisibility(View.VISIBLE);
 
-        projectile.animate()
+        newProjectile.animate()
                 .x(endX)
                 .setDuration(1000)
                 .withEndAction(() -> {
@@ -168,7 +177,7 @@ public class GameActivity extends AppCompatActivity {
                         flashWizard(toWizard);
                         playDamageSound();
                     }
-                    projectile.setVisibility(ImageView.INVISIBLE);
+                    rootLayout.removeView(newProjectile);
                     updateUI();
                     checkForWinner();
                 })
