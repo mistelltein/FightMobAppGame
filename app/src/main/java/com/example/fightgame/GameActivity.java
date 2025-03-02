@@ -17,8 +17,8 @@ public class GameActivity extends AppCompatActivity {
     private Player player2;
     private ProgressBar progressHP1, progressMP1, progressHP2, progressMP2;
     private ImageView wizard1, wizard2, projectile;
-    private int position1 = 1; // Начальная позиция первого мага (1, 2, 3)
-    private int position2 = 1; // Начальная позиция второго мага (1, 2, 3)
+    private int position1 = 1;
+    private int position2 = 1;
     private Handler manaHandler = new Handler(Looper.getMainLooper());
     private MediaPlayer attackSound, moveSound, damageSound, backgroundMusic;
 
@@ -120,11 +120,10 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateWizardPositions() {
-        // Определяем Y-координаты для позиций 1, 2, 3
         float[] positionsY = {
-                getResources().getDisplayMetrics().heightPixels * 0.25f, // Позиция 1
-                getResources().getDisplayMetrics().heightPixels * 0.45f, // Позиция 2
-                getResources().getDisplayMetrics().heightPixels * 0.65f  // Позиция 3
+                getResources().getDisplayMetrics().heightPixels * 0.25f,
+                getResources().getDisplayMetrics().heightPixels * 0.45f,
+                getResources().getDisplayMetrics().heightPixels * 0.65f
         };
         wizard1.animate().y(positionsY[position1 - 1] - wizard1.getHeight() / 2).setDuration(300).start();
         wizard2.animate().y(positionsY[position2 - 1] - wizard2.getHeight() / 2).setDuration(300).start();

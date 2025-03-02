@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/background_gradient">
 
-    <!-- Позиция 0: Кнопка "Назад" -->
+    <!-- Position 0: "Back" button -->
     <LinearLayout
         android:id="@+id/position0"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-    <!-- Позиция 1: Верхняя линия для магов -->
+    <!-- Position 1: Upper row for wizards -->
     <FrameLayout
         android:id="@+id/position1"
         android:layout_width="match_parent"
@@ -51,67 +51,79 @@
             android:visibility="invisible" />
     </FrameLayout>
 
-    <!-- Позиция 2: Средняя линия для магов -->
+    <!-- Position 2: Middle row for wizards -->
     <FrameLayout
         android:id="@+id/position2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Позиция 3: Нижняя линия для магов -->
+    <!-- Position 3: Bottom row for wizards -->
     <FrameLayout
         android:id="@+id/position3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!-- Прогресс-бары HP и MP -->
-    <ProgressBar
-        android:id="@+id/progressHP1"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="120dp"
+    <!-- HP and MP progress bars -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_hp"
-        android:max="100"
-        android:progress="100"
-        android:layout_gravity="start"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp" />
-    <ProgressBar
-        android:id="@+id/progressMP1"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_mp"
-        android:max="50"
-        android:progress="50"
-        android:layout_gravity="start"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp" />
-    <ProgressBar
-        android:id="@+id/progressHP2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_hp"
-        android:max="100"
-        android:progress="100"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
-    <ProgressBar
-        android:id="@+id/progressMP2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/progress_mp"
-        android:max="50"
-        android:progress="50"
-        android:layout_gravity="end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center">
 
-    <!-- Позиция 4: Кнопки управления -->
+        <!-- First column (HP/MP for Player 1) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="32dp">
+            <ProgressBar
+                android:id="@+id/progressHP1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_hp"
+                android:max="100"
+                android:progress="100" />
+            <ProgressBar
+                android:id="@+id/progressMP1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_mp"
+                android:max="50"
+                android:progress="50"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Second column (HP/MP for Player 2) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/progressHP2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_hp"
+                android:max="100"
+                android:progress="100" />
+            <ProgressBar
+                android:id="@+id/progressMP2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:progressDrawable="@drawable/progress_mp"
+                android:max="50"
+                android:progress="50"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Position 4: Control buttons -->
     <LinearLayout
         android:id="@+id/position4"
         android:layout_width="match_parent"
@@ -120,7 +132,8 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:padding="16dp">
-        <!-- Кнопки первого игрока -->
+
+        <!-- Controls for Player 1 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -146,7 +159,8 @@
                 android:text="Atk"
                 android:background="@drawable/button_background" />
         </LinearLayout>
-        <!-- Кнопки второго игрока -->
+
+        <!-- Controls for Player 2 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -173,6 +187,5 @@
                 android:background="@drawable/button_background" />
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>
