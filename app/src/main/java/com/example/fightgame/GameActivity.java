@@ -17,8 +17,8 @@ public class GameActivity extends AppCompatActivity {
     private Player player2;
     private ProgressBar progressHP1, progressMP1, progressHP2, progressMP2;
     private ImageView wizard1, wizard2, projectile;
-    private int position1 = 0;
-    private int position2 = 4;
+    private int position1 = 1; // Начальная позиция первого мага (1, 2, 3)
+    private int position2 = 1; // Начальная позиция второго мага (1, 2, 3)
     private Handler manaHandler = new Handler(Looper.getMainLooper());
     private MediaPlayer attackSound, moveSound, damageSound, backgroundMusic;
 
@@ -47,28 +47,29 @@ public class GameActivity extends AppCompatActivity {
             backgroundMusic.start();
         }
 
-        Button btnLeft = findViewById(R.id.btnLeft);
-        Button btnRight = findViewById(R.id.btnRight);
+        Button btnUp = findViewById(R.id.btnUp);
+        Button btnDown = findViewById(R.id.btnDown);
         Button btnAttack = findViewById(R.id.btnAttack);
-        Button btnLeft2 = findViewById(R.id.btnLeft2);
-        Button btnRight2 = findViewById(R.id.btnRight2);
+        Button btnUp2 = findViewById(R.id.btnUp2);
+        Button btnDown2 = findViewById(R.id.btnDown2);
         Button btnAttack2 = findViewById(R.id.btnAttack2);
         Button backButton = findViewById(R.id.backButton);
 
         updateUI();
+        updateWizardPositions(); // Установить начальные позиции
 
-        btnLeft.setOnClickListener(v -> {
+        btnUp.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
-            if (position1 > 0 && position1 - 1 != position2) {
+            if (position1 > 1) {
                 position1--;
                 updateWizardPositions();
                 playMoveSound();
             }
         });
 
-        btnRight.setOnClickListener(v -> {
+        btnDown.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
-            if (position1 < 4 && position1 + 1 != position2) {
+            if (position1 < 3) {
                 position1++;
                 updateWizardPositions();
                 playMoveSound();
@@ -85,18 +86,18 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        btnLeft2.setOnClickListener(v -> {
+        btnUp2.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
-            if (position2 > 0 && position2 - 1 != position1) {
+            if (position2 > 1) {
                 position2--;
                 updateWizardPositions();
                 playMoveSound();
             }
         });
 
-        btnRight2.setOnClickListener(v -> {
+        btnDown2.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
-            if (position2 < 4 && position2 + 1 != position1) {
+            if (position2 < 3) {
                 position2++;
                 updateWizardPositions();
                 playMoveSound();
@@ -119,24 +120,35 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateWizardPositions() {
-        float[] positionsX = {50f, 130f, 210f, 290f, 370f};
-        wizard1.animate().x(positionsX[position1]).setDuration(300).start();
-        wizard2.animate().x(positionsX[position2]).setDuration(300).start();
+        // Определяем Y-координаты для позиций 1, 2, 3
+        float[] positionsY = {
+                getResources().getDisplayMetrics().heightPixels * 0.25f, // Позиция 1
+                getResources().getDisplayMetrics().heightPixels * 0.45f, // Позиция 2
+                getResources().getDisplayMetrics().heightPixels * 0.65f  // Позиция 3
+        };
+        wizard1.animate().y(positionsY[position1 - 1] - wizard1.getHeight() / 2).setDuration(300).start();
+        wizard2.animate().y(positionsY[position2 - 1] - wizard2.getHeight() / 2).setDuration(300).start();
     }
 
     private void launchProjectile(Player attacker, int fromPos, int toPos, ImageView fromWizard, ImageView toWizard) {
-        float[] positionsX = {50f, 130f, 210f, 290f, 370f};
-        float startX = positionsX[fromPos];
-        float endX = positionsX[toPos];
+        float[] positionsY = {
+                getResources().getDisplayMetrics().heightPixels * 0.25f,
+                getResources().getDisplayMetrics().heightPixels * 0.45f,
+                getResources().getDisplayMetrics().heightPixels * 0.65f
+        };
+        float startY = positionsY[fromPos - 1] - projectile.getHeight() / 2;
+        float startX = (attacker == player1) ? fromWizard.getX() + fromWizard.getWidth() : fromWizard.getX();
+        float endX = (attacker == player1) ? getResources().getDisplayMetrics().widthPixels : 0;
+
+        projectile.setY(startY);
         projectile.setX(startX);
-        projectile.setY(fromWizard.getY());
         projectile.setVisibility(ImageView.VISIBLE);
 
         projectile.animate()
                 .x(endX)
                 .setDuration(1000)
                 .withEndAction(() -> {
-                    if (toPos == (attacker == player1 ? position2 : position1)) {
+                    if (fromPos == toPos) {
                         Player target = (attacker == player1 ? player2 : player1);
                         target.takeDamage(20);
                         flashWizard(toWizard);

@@ -1,84 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/gameRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity"
+    android:orientation="vertical"
     android:background="@drawable/background_gradient">
 
-    <!-- Positions for magicians -->
-    <View
+    <!-- Позиция 0: Кнопка "Назад" -->
+    <LinearLayout
         android:id="@+id/position0"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="120dp"
-        android:layout_marginStart="50dp" />
-    <View
+        android:layout_weight="1"
+        android:gravity="center|end"
+        android:padding="16dp">
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_button"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- Позиция 1: Верхняя линия для магов -->
+    <FrameLayout
         android:id="@+id/position1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/position0"
-        android:layout_marginBottom="120dp"
-        android:layout_marginStart="80dp" />
-    <View
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/wizard1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_wizard1"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="50dp" />
+        <ImageView
+            android:id="@+id/wizard2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_wizard2"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="50dp" />
+        <ImageView
+            android:id="@+id/projectile"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_projectile"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <!-- Позиция 2: Средняя линия для магов -->
+    <FrameLayout
         android:id="@+id/position2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/position1"
-        android:layout_marginBottom="120dp"
-        android:layout_marginStart="80dp" />
-    <View
+        android:layout_weight="1" />
+
+    <!-- Позиция 3: Нижняя линия для магов -->
+    <FrameLayout
         android:id="@+id/position3"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/position2"
-        android:layout_marginBottom="120dp"
-        android:layout_marginStart="80dp" />
-    <View
-        android:id="@+id/position4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/position3"
-        android:layout_marginBottom="120dp"
-        android:layout_marginStart="80dp" />
+        android:layout_weight="1" />
 
-    <!-- First character -->
-    <ImageView
-        android:id="@+id/wizard1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_wizard1"
-        app:layout_constraintBottom_toBottomOf="@id/position0"
-        app:layout_constraintStart_toStartOf="@id/position0" />
-
-    <!-- Second character -->
-    <ImageView
-        android:id="@+id/wizard2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_wizard2"
-        app:layout_constraintBottom_toBottomOf="@id/position4"
-        app:layout_constraintStart_toStartOf="@id/position4" />
-
-    <ImageView
-        android:id="@+id/projectile"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_projectile"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/wizard1" />
-
-    <!-- HP and MP stripes for the first character -->
+    <!-- Прогресс-бары HP и MP -->
     <ProgressBar
         android:id="@+id/progressHP1"
         style="?android:attr/progressBarStyleHorizontal"
@@ -87,9 +74,9 @@
         android:progressDrawable="@drawable/progress_hp"
         android:max="100"
         android:progress="100"
-        app:layout_constraintBottom_toTopOf="@+id/wizard1"
-        app:layout_constraintStart_toStartOf="@+id/wizard1"
-        android:layout_marginBottom="16dp" />
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
     <ProgressBar
         android:id="@+id/progressMP1"
         style="?android:attr/progressBarStyleHorizontal"
@@ -98,11 +85,9 @@
         android:progressDrawable="@drawable/progress_mp"
         android:max="50"
         android:progress="50"
-        app:layout_constraintBottom_toTopOf="@+id/progressHP1"
-        app:layout_constraintStart_toStartOf="@+id/progressHP1"
-        android:layout_marginBottom="8dp" />
-
-    <!-- HP and MP stripes for the second character -->
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
     <ProgressBar
         android:id="@+id/progressHP2"
         style="?android:attr/progressBarStyleHorizontal"
@@ -111,9 +96,9 @@
         android:progressDrawable="@drawable/progress_hp"
         android:max="100"
         android:progress="100"
-        app:layout_constraintBottom_toTopOf="@+id/wizard2"
-        app:layout_constraintEnd_toEndOf="@+id/wizard2"
-        android:layout_marginBottom="16dp" />
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
     <ProgressBar
         android:id="@+id/progressMP2"
         style="?android:attr/progressBarStyleHorizontal"
@@ -122,85 +107,72 @@
         android:progressDrawable="@drawable/progress_mp"
         android:max="50"
         android:progress="50"
-        app:layout_constraintBottom_toTopOf="@+id/progressHP2"
-        app:layout_constraintEnd_toEndOf="@+id/progressHP2"
-        android:layout_marginBottom="8dp" />
+        android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp" />
 
-    <!-- Buttons for the first player -->
-    <Button
-        android:id="@+id/btnLeft"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text="←"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="20dp" />
-    <Button
-        android:id="@+id/btnRight"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text="→"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnLeft"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="10dp" />
-    <Button
-        android:id="@+id/btnAttack"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:text="Atk"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnRight"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="10dp" />
+    <!-- Позиция 4: Кнопки управления -->
+    <LinearLayout
+        android:id="@+id/position4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+        <!-- Кнопки первого игрока -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btnUp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="↑"
+                android:background="@drawable/button_background" />
+            <Button
+                android:id="@+id/btnDown"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="↓"
+                android:background="@drawable/button_background" />
+            <Button
+                android:id="@+id/btnAttack"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:text="Atk"
+                android:background="@drawable/button_background" />
+        </LinearLayout>
+        <!-- Кнопки второго игрока -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btnUp2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="↑"
+                android:background="@drawable/button_background" />
+            <Button
+                android:id="@+id/btnDown2"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:text="↓"
+                android:background="@drawable/button_background" />
+            <Button
+                android:id="@+id/btnAttack2"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:text="Atk"
+                android:background="@drawable/button_background" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <!-- Buttons for the second player -->
-    <Button
-        android:id="@+id/btnLeft2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text="←"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRight2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="10dp" />
-    <Button
-        android:id="@+id/btnRight2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text="→"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAttack2"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="10dp" />
-    <Button
-        android:id="@+id/btnAttack2"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:text="Atk"
-        android:background="@drawable/button_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="20dp" />
 
-    <!-- Back button -->
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back_button"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
