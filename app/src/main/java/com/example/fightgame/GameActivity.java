@@ -61,7 +61,8 @@ public class GameActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.backButton);
 
         updateUI();
-        updateWizardPositions();
+        wizard1.post(this::updateWizardPositions);
+        wizard2.post(this::updateWizardPositions);
 
         btnUp.setOnClickListener(v -> {
             v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_press));
@@ -125,22 +126,31 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void updateWizardPositions() {
-        float[] positionsY = {
-                getResources().getDisplayMetrics().heightPixels * 0.25f,
-                getResources().getDisplayMetrics().heightPixels * 0.45f,
-                getResources().getDisplayMetrics().heightPixels * 0.65f
+        androidx.constraintlayout.widget.Guideline guidelinePosition1 = findViewById(R.id.guideline_position1);
+        androidx.constraintlayout.widget.Guideline guidelinePosition2 = findViewById(R.id.guideline_position2);
+        androidx.constraintlayout.widget.Guideline guidelinePosition3 = findViewById(R.id.guideline_position3);
+
+        androidx.constraintlayout.widget.Guideline[] positions = {
+                guidelinePosition1,
+                guidelinePosition2,
+                guidelinePosition3
         };
-        wizard1.animate().y(positionsY[position1 - 1] - wizard1.getHeight() / 2).setDuration(300).start();
-        wizard2.animate().y(positionsY[position2 - 1] - wizard2.getHeight() / 2).setDuration(300).start();
+
+        float targetY1 = positions[position1 - 1].getY() - wizard1.getHeight() / 2;
+        float targetY2 = positions[position2 - 1].getY() - wizard2.getHeight() / 2;
+
+        wizard1.animate().y(targetY1).setDuration(300).start();
+        wizard2.animate().y(targetY2).setDuration(300).start();
     }
 
     private void launchProjectile(Player attacker, int fromPos, int toPos, ImageView fromWizard, ImageView toWizard) {
-        float[] positionsY = {
-                getResources().getDisplayMetrics().heightPixels * 0.25f,
-                getResources().getDisplayMetrics().heightPixels * 0.45f,
-                getResources().getDisplayMetrics().heightPixels * 0.65f
+        androidx.constraintlayout.widget.Guideline[] positions = {
+                findViewById(R.id.guideline_position1),
+                findViewById(R.id.guideline_position2),
+                findViewById(R.id.guideline_position3)
         };
-        float startY = positionsY[fromPos - 1] - projectile.getHeight() / 2;
+
+        float startY = positions[fromPos - 1].getY() - projectile.getHeight() / 2;
         float startX = (attacker == player1) ? fromWizard.getX() + fromWizard.getWidth() : fromWizard.getX();
         float endX = (attacker == player1) ? getResources().getDisplayMetrics().widthPixels : 0;
 

@@ -1,79 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background_gradient">
 
-    <!-- Position 0: "Back" button -->
-    <LinearLayout
-        android:id="@+id/position0"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center|end"
-        android:padding="16dp">
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back_button"
-            android:background="@drawable/button_background"
-            android:textColor="@color/white" />
-    </LinearLayout>
-
-    <!-- Position 1: Upper row for wizards -->
-    <FrameLayout
-        android:id="@+id/position1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <ImageView
-            android:id="@+id/wizard1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_wizard1"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="50dp" />
-        <ImageView
-            android:id="@+id/wizard2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_wizard2"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="50dp" />
-        <ImageView
-            android:id="@+id/projectile"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_projectile"
-            android:visibility="invisible" />
-    </FrameLayout>
-
-    <!-- Position 2: Middle row for wizards -->
-    <FrameLayout
-        android:id="@+id/position2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Position 3: Bottom row for wizards -->
-    <FrameLayout
-        android:id="@+id/position3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- HP and MP progress bars -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Guidelines для разделения экрана -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_position1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_position2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_position3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_button"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <ImageView
+        android:id="@+id/wizard1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_wizard1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_position1"
+        android:layout_marginStart="40dp" />
+
+    <ImageView
+        android:id="@+id/wizard2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_wizard2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_position1"
+        android:layout_marginEnd="40dp" />
+
+    <ImageView
+        android:id="@+id/projectile"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_projectile"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_position1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/guideline_position3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:padding="16dp"
         android:gravity="center">
 
-        <!-- First column (HP/MP for Player 1) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,7 +114,6 @@
                 android:layout_marginTop="8dp" />
         </LinearLayout>
 
-        <!-- Second column (HP/MP for Player 2) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,17 +138,17 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Position 4: Control buttons -->
     <LinearLayout
         android:id="@+id/position4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         android:padding="16dp">
 
-        <!-- Controls for Player 1 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -160,7 +175,6 @@
                 android:background="@drawable/button_background" />
         </LinearLayout>
 
-        <!-- Controls for Player 2 -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -188,4 +202,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
