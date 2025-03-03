@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Root layout: ConstraintLayout, который содержит весь UI игры.
+  Фон задан через ресурс background_gradient и поддерживается отображение системных окон.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,7 +12,7 @@
     android:background="@drawable/background_gradient"
     android:fitsSystemWindows="true">
 
-    <!-- Гайдлайны для зон -->
+    <!-- Guideline для верхней области (5% высоты) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
@@ -16,6 +20,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.05" />
 
+    <!-- Guideline для зоны 1 (25% высоты) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_zone1"
         android:layout_width="wrap_content"
@@ -23,6 +28,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
+    <!-- Guideline для зоны 2 (45% высоты) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_zone2"
         android:layout_width="wrap_content"
@@ -30,6 +36,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45" />
 
+    <!-- Guideline для зоны 3 (65% высоты) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_zone3"
         android:layout_width="wrap_content"
@@ -37,6 +44,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.65" />
 
+    <!-- Guideline для области кнопок управления (85% высоты) -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_controls"
         android:layout_width="wrap_content"
@@ -44,7 +52,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
 
-    <!-- Кнопка Back -->
+    <!-- Back button, расположенная относительно верхнего Guideline -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -57,7 +65,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp" />
 
-    <!-- Персонажи -->
+    <!-- Изображение первого персонажа (wizard1), привязанное к левой стороне и зоне 1 -->
     <ImageView
         android:id="@+id/wizard1"
         android:layout_width="60dp"
@@ -67,6 +75,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline_zone1"
         android:layout_marginStart="40dp" />
 
+    <!-- Изображение второго персонажа (wizard2), привязанное к правой стороне и зоне 1 -->
     <ImageView
         android:id="@+id/wizard2"
         android:layout_width="60dp"
@@ -76,7 +85,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline_zone1"
         android:layout_marginEnd="40dp" />
 
-    <!-- Прогресс-бары -->
+    <!-- Контейнер для прогресс-баров обоих игроков -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -87,12 +96,13 @@
         android:padding="16dp"
         android:gravity="center"
         android:layout_marginTop="25dp">
-
+        <!-- Прогресс-бары для игрока 1 (слева) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginEnd="32dp">
+            <!-- HP игрока 1 -->
             <ProgressBar
                 android:id="@+id/progressHP1"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -101,6 +111,7 @@
                 android:progressDrawable="@drawable/progress_hp"
                 android:max="100"
                 android:progress="100" />
+            <!-- MP игрока 1 -->
             <ProgressBar
                 android:id="@+id/progressMP1"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -111,11 +122,12 @@
                 android:progress="50"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
-
+        <!-- Прогресс-бары для игрока 2 (справа) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <!-- HP игрока 2 -->
             <ProgressBar
                 android:id="@+id/progressHP2"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -124,6 +136,7 @@
                 android:progressDrawable="@drawable/progress_hp"
                 android:max="100"
                 android:progress="100" />
+            <!-- MP игрока 2 -->
             <ProgressBar
                 android:id="@+id/progressMP2"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -136,7 +149,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Кнопки управления -->
+    <!-- Контейнер для кнопок управления (две группы для каждого игрока) -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -146,7 +159,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         android:padding="8dp">
-
+        <!-- Группа кнопок для игрока 1 (слева) -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -154,7 +167,6 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginEnd="16dp">
-
             <Button
                 android:id="@+id/btnUp"
                 android:layout_width="60dp"
@@ -163,7 +175,6 @@
                 android:backgroundTint="#A080A0"
                 android:textColor="#FFFFFF"
                 android:padding="8dp" />
-
             <Button
                 android:id="@+id/btnDown"
                 android:layout_width="60dp"
@@ -172,7 +183,6 @@
                 android:backgroundTint="#A080A0"
                 android:textColor="#FFFFFF"
                 android:padding="8dp" />
-
             <Button
                 android:id="@+id/btnAttack"
                 android:layout_width="60dp"
@@ -182,7 +192,7 @@
                 android:textColor="#FFFFFF"
                 android:padding="8dp" />
         </LinearLayout>
-
+        <!-- Группа кнопок для игрока 2 (справа) -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -190,7 +200,6 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginStart="16dp">
-
             <Button
                 android:id="@+id/btnUp2"
                 android:layout_width="60dp"
@@ -199,7 +208,6 @@
                 android:backgroundTint="#A080A0"
                 android:textColor="#FFFFFF"
                 android:padding="8dp" />
-
             <Button
                 android:id="@+id/btnDown2"
                 android:layout_width="60dp"
@@ -208,7 +216,6 @@
                 android:backgroundTint="#A080A0"
                 android:textColor="#FFFFFF"
                 android:padding="8dp" />
-
             <Button
                 android:id="@+id/btnAttack2"
                 android:layout_width="60dp"

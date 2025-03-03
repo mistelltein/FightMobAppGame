@@ -262,6 +262,9 @@ public class GameActivity extends AppCompatActivity {
         progressMP2.setProgress(player2.getCurrentMP());
     }
 
+    /**
+     * Запускает процесс регенерации маны.
+     */
     private void startManaRegeneration() {
         manaHandler.postDelayed(new Runnable() {
             @Override
@@ -337,6 +340,9 @@ public class GameActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Сбрасывает состояние игры.
+     */
     private void resetGame() {
         player1 = new Player(100, 50);
         player2 = new Player(100, 50);
