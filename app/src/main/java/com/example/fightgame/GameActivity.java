@@ -166,39 +166,85 @@ public class GameActivity extends AppCompatActivity {
      */
     private void attack(Player attacker, Player target, int fromPos, int toPos,
                         ImageView fromWizard, ImageView toWizard) {
+        // Запоминаем «зону цели» в момент выстрела, если вам это по-прежнему нужно:
+        final int expectedZone = toPos;
+
+        // Создаём ImageView для снаряда
         ImageView projectile = new ImageView(this);
         projectile.setImageResource(R.drawable.ic_projectile);
         projectile.setLayoutParams(new ConstraintLayout.LayoutParams(20, 20));
         rootLayout.addView(projectile);
 
-        // Получаем гайдлайны для зон
+        // Массив гайдов (зон)
         Guideline guideline1 = findViewById(R.id.guideline_zone1);
         Guideline guideline2 = findViewById(R.id.guideline_zone2);
         Guideline guideline3 = findViewById(R.id.guideline_zone3);
         Guideline[] guidelines = { guideline1, guideline2, guideline3 };
 
-        float startY = guidelines[fromPos - 1].getY() - projectile.getHeight() / 2f;
-        float startX = (attacker == player1) ? fromWizard.getX() + fromWizard.getWidth() : fromWizard.getX();
-        float endX = (attacker == player1) ? getResources().getDisplayMetrics().widthPixels : 0;
+        // Начальная и конечная X/Y
+        float startY = guidelines[fromPos - 1].getY() - projectile.getHeight() / 2f - 60;
+        float startX = (attacker == player1)
+                ? (fromWizard.getX() + fromWizard.getWidth())
+                : fromWizard.getX();
+        float endX   = (attacker == player1)
+                ? getResources().getDisplayMetrics().widthPixels
+                : 0;
 
         projectile.setX(startX);
         projectile.setY(startY);
         projectile.setVisibility(View.VISIBLE);
 
-        projectile.animate()
-                .x(endX)
-                .setDuration(1000)
-                .withEndAction(() -> {
-                    if (fromPos == toPos && target.getCurrentHP() > 0) {
+        // Настраиваем анимацию по X: от startX до endX
+        android.animation.ValueAnimator animator = android.animation.ValueAnimator.ofFloat(startX, endX);
+        animator.setDuration(500);
+
+        // Флаг, чтобы урон наносился 1 раз
+        final boolean[] damageDealt = { false };
+
+        animator.addUpdateListener(animation -> {
+            float currentX = (float) animation.getAnimatedValue();
+            projectile.setX(currentX);
+
+            // На каждом шаге проверяем:
+            // 1) В какой зоне сейчас находится цель (position2 или position1).
+            // 2) Если зона совпадает с expectedZone, значит цель ещё «там».
+            // 3) Можно также сверить bounding box маг <-> projectile.
+
+            int currentTargetZone = (attacker == player1) ? position2 : position1;
+
+            // Если ещё не наносили урон, и цель всё ещё жива
+            if (!damageDealt[0] && target.getCurrentHP() > 0) {
+                // Простейшая проверка: если currentTargetZone == expectedZone, наносим урон
+                // (или более точный bounding box).
+                if (currentTargetZone == expectedZone) {
+                    // Допустим, проверим «приблизительно», что снаряд уже пролетел половину
+                    // или достиг X-координат мага.
+                    float wizardCenterX = toWizard.getX() + toWizard.getWidth() * 0.5f;
+                    boolean passedWizard = (attacker == player1)
+                            ? (currentX >= wizardCenterX) // летим справа налево
+                            : (currentX <= wizardCenterX); // летим слева направо
+
+                    if (passedWizard) {
                         target.takeDamage(20);
                         flashWizard(toWizard);
                         playDamageSound();
+                        damageDealt[0] = true; // урон нанесли
                     }
-                    rootLayout.removeView(projectile);
-                    updateUI();
-                    checkForWinner();
-                })
-                .start();
+                }
+            }
+        });
+
+        // Когда анимация заканчивается, убираем снаряд из layout и делаем финальную проверку
+        animator.addListener(new android.animation.AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                rootLayout.removeView(projectile);
+                updateUI();
+                checkForWinner();
+            }
+        });
+
+        animator.start();
     }
 
     private void flashWizard(ImageView wizard) {
