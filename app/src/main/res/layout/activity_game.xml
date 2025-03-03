@@ -5,31 +5,33 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/background_gradient"
+    android:fitsSystemWindows="true">
 
+    <!-- Гайдлайны для зон -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_position1"
+        android:id="@+id/guideline_zone1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_position2"
+        android:id="@+id/guideline_zone2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.45" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_position3"
+        android:id="@+id/guideline_zone3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -42,47 +44,49 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
 
+    <!-- Кнопка Back -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/back_button"
-        android:background="@drawable/button_background"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Back"
+        android:backgroundTint="#A080A0"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp" />
 
+    <!-- Персонажи -->
     <ImageView
         android:id="@+id/wizard1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/default_description"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_wizard1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_position1"
+        app:layout_constraintTop_toTopOf="@id/guideline_zone1"
         android:layout_marginStart="40dp" />
 
     <ImageView
         android:id="@+id/wizard2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:contentDescription="@string/default_description"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@drawable/ic_wizard2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_position1"
+        app:layout_constraintTop_toTopOf="@id/guideline_zone1"
         android:layout_marginEnd="40dp" />
 
+    <!-- Прогресс-бары -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/guideline_position3"
+        app:layout_constraintTop_toBottomOf="@id/guideline_zone3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="16dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="25dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,76 +136,87 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Кнопки управления -->
     <LinearLayout
-        android:id="@+id/position4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="8dp">
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginEnd="16dp">
 
             <Button
                 android:id="@+id/btnUp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_up"
-                android:background="@drawable/button_background" />
+                android:text="↑"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/btnDown"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_down"
-                android:background="@drawable/button_background" />
+                android:text="↓"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/btnAttack"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_attack"
-                android:background="@drawable/button_background" />
+                android:text="Atk"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
         </LinearLayout>
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginStart="16dp">
 
             <Button
                 android:id="@+id/btnUp2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_up"
-                android:background="@drawable/button_background" />
+                android:text="↑"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/btnDown2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_down"
-                android:background="@drawable/button_background" />
+                android:text="↓"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
 
             <Button
                 android:id="@+id/btnAttack2"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:text="@string/button_attack"
-                android:background="@drawable/button_background" />
+                android:text="Atk"
+                android:backgroundTint="#A080A0"
+                android:textColor="#FFFFFF"
+                android:padding="8dp" />
         </LinearLayout>
     </LinearLayout>
 
